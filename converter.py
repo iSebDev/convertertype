@@ -1,6 +1,17 @@
 import os
 import base64
+import re
+import hashlib
 import math
+import requests
+import json
+
+libs = [math.__name__, 
+        base64.__name__, 
+        os.__name__, 
+        requests.__name__, 
+        json.__name__,
+        hashlib.__name__]
 
 class Colors: 
     RED = "\033[31m"
@@ -84,8 +95,22 @@ Types = {
     'stringtoeval': {
         'run': lambda string: eval(str(string)),
         'description': 'Convert string to value in a eval (math.<funcs> included)'
+    },
+    'hextorgb': {
+        'run': lambda hex_: tuple(int(hex_.lstrip('#')[i:i+2], 16) for i in (0, 2, 4)),
+        'description': 'Convert hex color code to RGB tuple'
+    },
+    'rgbtohex': {
+        'run': lambda rgb: f"#{''.join(map(lambda x: hex(int(x))[2:].zfill(2), str(rgb).strip('()').replace(' ', '').split(',')))}" if re.match(r'^\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)$', rgb) else 1/0,
+        'description': 'Convert RGB tuple to hex color code'
+    },
+    'stringtohash': {
+        'run': lambda string: hashlib.sha256(string.encode('utf-8')).hexdigest(),
+        'description': 'Encrypt an string to a hex SHA-256(unhashable)'
     }
 }
+
+# 1/0 - Raise DivideByZero
 
 class Main:
     def __init__(self) -> None:
@@ -94,10 +119,14 @@ class Main:
             self.clear()
             print("""
                   {}
-              ConverterType v1.0 by SebDev
+             ConverterType v1.05 by SebDev
         ----------------------------------------
                 Simple change the type
                     of other type
+                    
+                      Commands:
+                     help | exit
+        ----------------------------------------
               """.format(Colors.WHITE))
             command = input("> ")
             
