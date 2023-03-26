@@ -25,3 +25,6 @@ The program is a set of functions that allow conversion between different data t
 | `stringtoupper` | Converts a string to upper case |
 | `stringtolower` | Converts a string to lower case |
 | `stringtoeval` | Converts string to value in a `eval()` (including `math.<funcs>`) |
+| `hextorgb` | Convert hex color code to RGB tuple |
+| `rgbtohex` | Convert RGB tuple to hex color code |
+| `stringtohash` | Encrypt an string to a hex SHA-256(unhashable) |
