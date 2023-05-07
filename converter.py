@@ -10,6 +10,7 @@ libs = [math.__name__,
         base64.__name__, 
         os.__name__, 
         requests.__name__, 
+        re.__name__,
         json.__name__,
         hashlib.__name__]
 
@@ -76,6 +77,7 @@ Types = {
         'run': lambda num: hex(int(num)),
         'description': 'Converts an integer to a hexadecimal number'
     },
+    # base64
     'stringtob64': {
         'run': lambda string: base64.b64encode(string.encode("utf-8")).decode("utf-8"),
         'description': 'Converts a string to base64 encode'
@@ -84,6 +86,43 @@ Types = {
         'run': lambda b64: base64.b64decode(b64).decode("utf-8"),
         'description': 'Converts a base64 to a string'
     },
+    # base16
+    'stringtob16': {
+        'run': lambda string: base64.b16encode(string.encode("utf-8")).decode("utf-8"),
+        'description': 'Converts a string to base16 encode'
+    },
+    'b16tostring': {
+        'run': lambda b64: base64.b16decode(b64).decode("utf-8"),
+        'description': 'Converts a base16 to a string'
+    },
+    # base32
+    'stringtob32': {
+        'run': lambda string: base64.b32encode(string.encode("utf-8")).decode("utf-8"),
+        'description': 'Converts a string to base32 encode'
+    },
+    'b32tostring': {
+        'run': lambda b32: base64.b32decode(b32).decode("utf-8"),
+        'description': 'Converts a base32 to a string'
+    },
+    # base85
+    'stringtob85': {
+        'run': lambda string: base64.b85encode(string.encode("utf-8")).decode("utf-8"),
+        'description': 'Converts a string to base85 encode'
+    },
+    'b85tostring': {
+        'run': lambda b85: base64.b85decode(b85).decode("utf-8"),
+        'description': 'Converts a base85 to a string'
+    },
+    # base ascii85
+    'stringtoa85': {
+        'run': lambda string: base64.a85encode(string.encode("utf-8")).decode("utf-8"),
+        'description': 'Converts a string to base64 ascii85 encode'
+    },
+    'a85tostring': {
+        'run': lambda a85: base64.a85decode(a85).decode("utf-8"),
+        'description': 'Converts a base64 ascii85 to a string'
+    },
+    # end base64 lines
     'stringtoupper': {
         'run': lambda string: str(string).upper(),
         'description': 'String to upper string'
@@ -104,9 +143,26 @@ Types = {
         'run': lambda rgb: f"#{''.join(map(lambda x: hex(int(x))[2:].zfill(2), str(rgb).strip('()').replace(' ', '').split(',')))}" if re.match(r'^\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)$', rgb) else 1/0,
         'description': 'Convert RGB tuple to hex color code'
     },
-    'stringtohash': {
+    # hashlib utils
+    'stringtoh256': {
         'run': lambda string: hashlib.sha256(string.encode('utf-8')).hexdigest(),
         'description': 'Encrypt an string to a hex SHA-256(unhashable)'
+    },
+    'stringtoh512': {
+        'run': lambda string: hashlib.sha512(string.encode('utf-8')).hexdigest(),
+        'description': 'Encrypt an string to a hex SHA-512(unhashable)'
+    },
+    'stringtoh1': {
+        'run': lambda string: hashlib.sha1(string.encode('utf-8')).hexdigest(),
+        'description': 'Encrypt an string to a hex SHA-1(unhashable)'
+    },
+    'stringtoh224': {
+        'run': lambda string: hashlib.sha224(string.encode('utf-8')).hexdigest(),
+        'description': 'Encrypt an string to a hex SHA-224(unhashable)'
+    },
+    'stringtoh384': {
+        'run': lambda string: hashlib.sha384(string.encode('utf-8')).hexdigest(),
+        'description': 'Encrypt an string to a hex SHA-384(unhashable)'
     }
 }
 
@@ -119,7 +175,7 @@ class Main:
             self.clear()
             print("""
                   {}
-             ConverterType v1.05 by SebDev
+             ConverterType v1.15 by SebDev
         ----------------------------------------
                 Simple change the type
                     of other type
