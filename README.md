@@ -20,6 +20,8 @@ The program is a set of functions that allow conversion between different data t
 | `bintostring` | Converts a binary number to a string |
 | `inttobin` | Converts an integer to a binary number |
 | `inttohex` | Converts an integer to a hexadecimal number |
+| `stringtob16` | Converts a string to base16 encode |
+| `b16tostring` | Converts a base16 to a string |
 | `stringtob64` | Converts a string to base64 encode |
 | `b64tostring` | Converts a base64 to a string |
 | `stringtoupper` | Converts a string to upper case |
