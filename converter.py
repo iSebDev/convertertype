@@ -20,7 +20,9 @@ class Colors:
     YELLOW = "\033[33m"
     WHITE = "\033[37m"
 
+# api version = 1
 Types = {
+    'apiversion': 1,
     'bintohex': {
         'run': lambda bin_: hex(int(bin_, 2)),
         'description': 'Converts a binary number to hexadecimal'
@@ -175,25 +177,39 @@ class Main:
             self.clear()
             print("""
                   {}
-             ConverterType v1.15 by SebDev
-        ----------------------------------------
+             ConverterType v1.2 by SebDev
+        --------------------------------------
                 Simple change the type
                     of other type
                     
                       Commands:
-                     help | exit
-        ----------------------------------------
+                  help | exit | api
+        --------------------------------------
               """.format(Colors.WHITE))
             command = input("> ")
             
             if command == "help":
                 keys = Types.keys()
                 for key in keys:
-                    print("{}{} {}- {}{}".format(Colors.YELLOW, key, Colors.RED, Colors.GREEN, Types.get(key).get("description")))
+                    if key == "apiversion":
+                        continue
+                    else:
+                        print("{}{} {}- {}{}".format(Colors.YELLOW, key, Colors.RED, Colors.GREEN, Types.get(key).get("description")))
                     
                 input("")
             elif command == "exit":
                 exit(0)
+            elif command == "api":
+                print(f"""
+                      {Colors.GREEN}from {Colors.YELLOW}converter {Colors.GREEN}import {Colors.YELLOW}ConverterAPI
+                      
+                      {Colors.WHITE}api = {Colors.YELLOW}ConverterAPI(version=1)
+                      
+                      {Colors.WHITE}# Convert 'Hello, World!' to Sha256(undecryptable) hex digest
+                      {Colors.RED}print({Colors.YELLOW}output_type='stringtoh256', input_value='Hello, World!'{Colors.RED})
+                      """)
+                
+                input("")
             else:
                 if Types.get(command) is not None:
                     try:
@@ -216,6 +232,16 @@ class Main:
             os.system("cls")
         else:
             os.system("clear") 
+    
+class ConverterAPI:
+    def __init__(self, version: int = 1):
+        self.version = version
+    
+    def convert(self, output_type: str, input_value: any=None):
+        if Types.get("apiversion") == self.version:
+            return Types.get(output_type).get('run')(input_value) if Types.get(output_type) != None and output_type != "apiversion" else None
+        else:
+            raise Exception("Invalid API Version")
     
 if __name__ == "__main__":
     main = Main()
