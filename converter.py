@@ -115,14 +115,14 @@ Types = {
         'run': lambda b85: base64.b85decode(b85).decode("utf-8"),
         'description': 'Converts a base85 to a string'
     },
-    # base ascii85
+   # base ascii85
     'stringtoa85': {
         'run': lambda string: base64.a85encode(string.encode("utf-8")).decode("utf-8"),
-        'description': 'Converts a string to base64 ascii85 encode'
+        'description': 'Converts a string to base64 like ascii85 encode'
     },
     'a85tostring': {
         'run': lambda a85: base64.a85decode(a85).decode("utf-8"),
-        'description': 'Converts a base64 ascii85 to a string'
+        'description': 'Converts a base64 like ascii85 to a string'
     },
     # end base64 lines
     'stringtoupper': {
