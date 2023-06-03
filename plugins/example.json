@@ -1,0 +1,10 @@
+{
+    "plugin": {
+        "name": "example",
+        "description": "Sqrt"
+    },
+    "data": [
+        {"name": "sqrt", "fields": ["x"], "depend": ["math"], "info": "Return Squareroot of a Float", "return": "math.sqrt(?)"},
+        {"name": "sqrt2", "fields": ["x"], "info": "Return Squareroot of a Float", "return": "?**(1/2)"}
+    ]
+}
