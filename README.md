@@ -38,3 +38,17 @@ The program is a set of functions that allow conversion between different data t
 | `stringtoh256` | Encrypt an string to a hex SHA-256(unhashable) |
 | `stringtoh512` | Encrypt an string to a hex SHA-512(unhashable) |
 | `stringtoh1` | Encrypt an string to a hex SHA-1(unhashable) |
+
+## Measures conversion 🎉 NEW v1.4
+
+| Function | Description | Fields |
+|------------|-------------|--------|
+| mtom2      | Meters to Square Meters (x * y) | 2 |
+| mmtom      | Millimeters to Meters (x/1000) | 1 |
+| mtomm      | Meters to Millimeters (x*1000) | 1 |
+| mtokm      | Meters to Kilometers (x/1000) | 1 |
+| kmtom      | Kilometers to Meters (x*1000) | 1 |
+| ltoml      | Liters to Milliliters (x * 1000) | 1 |
+| mltol      | Milliliters to Liters (x / 1000) | 1 |
+| gtomg      | Grams to Milligrams (x * 1000) | 1 |
+| mgtog      | Milligrams to Grams (x / 1000) | 1 |
