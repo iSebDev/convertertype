@@ -20,6 +20,56 @@ class Colors:
     YELLOW = "\033[33m"
     WHITE = "\033[37m"
 
+square = "²"
+
+Ms_Converters = {
+    'mtom2': {
+        'run': lambda a: f"{a[0]*a[1]} m{square}",
+        'fields': ["height", "width"],
+        'description': 'Meters to Square Meters (x * y)'
+    },
+    'mmtom': {
+        'run': lambda a: f"{a[0]/1000} m",
+        'fields': ["(mm)"],
+        'description': 'Millimeters to Metters (x/1000)'
+    },
+    'mtomm': {
+        'run': lambda a: f"{a[0]*1000} mm",
+        'fields': ["(m)"],
+        'description': 'Meters to Millimetters (x*1000)'
+    },
+    'mtokm': {
+        'run': lambda a: f"{a[0]/1000} km",
+        'fields': ["(m)"],
+        'description': 'Meters to Kilometres (x/1000)'
+    },
+    'kmtom': {
+        'run': lambda a: f"{a[0]*1000} m",
+        'fields': ["(km)"],
+        'description': 'Kilometres to Meters (x*1000)'
+    },
+    'ltoml': {
+        'run': lambda a: f"{a[0] * 1000} mL",
+        'fields': ["(L)"],
+        'description': 'Liters to Milliliters (x * 1000)'
+    },
+    'mltol': {
+        'run': lambda a: f"{a[0] / 1000} L",
+        'fields': ["(mL)"],
+        'description': 'Milliliters to Liters (x / 1000)'
+    },
+    'gtomg': {
+        'run': lambda a: f"{a[0] * 1000} mg",
+        'fields': ["(g)"],
+        'description': 'Grams to Milligrams (x * 1000)'
+    },
+    'mgtog': {
+        'run': lambda a: f"{a[0] / 1000} g",
+        'fields': ["(mg)"],
+        'description': 'Milligrams to Grams (x / 1000)'
+    }
+}
+
 # api version = 1
 Types = {
     'apiversion': 1,
@@ -115,7 +165,7 @@ Types = {
         'run': lambda b85: base64.b85decode(b85).decode("utf-8"),
         'description': 'Converts a base85 to a string'
     },
-   # base ascii85
+    # base ascii85
     'stringtoa85': {
         'run': lambda string: base64.a85encode(string.encode("utf-8")).decode("utf-8"),
         'description': 'Converts a string to base64 like ascii85 encode'
@@ -177,7 +227,7 @@ class Main:
             self.clear()
             print("""
                   {}
-             ConverterType v1.2 by SebDev
+             ConverterType v1.4 by SebDev
         --------------------------------------
                 Simple change the type
                     of other type
@@ -195,6 +245,10 @@ class Main:
                         continue
                     else:
                         print("{}{} {}- {}{}".format(Colors.YELLOW, key, Colors.RED, Colors.GREEN, Types.get(key).get("description")))
+                print(Colors.WHITE+"========= Measures =========")
+                keys = Ms_Converters.keys()
+                for key in keys:
+                    print("{}{} {}- {}{}".format(Colors.YELLOW, key, Colors.RED, Colors.GREEN, Ms_Converters.get(key).get("description")))
                     
                 input("")
             elif command == "exit":
@@ -211,7 +265,17 @@ class Main:
                 
                 input("")
             else:
-                if Types.get(command) is not None:
+                if len(command.split(" ")) == 2 and command.split(" ")[0] == "help":
+                    
+                    arg = command.split(" ")[1]
+                    
+                    if Types.get(arg) is not None:
+                        print("{}{}:{} {}".format(Colors.GREEN, arg, Colors.YELLOW, Types.get(arg).get("description")))
+                    else:
+                        print("{}Error: '{}' not exists".format(Colors.RED, arg))
+                    input("")
+                    
+                elif Types.get(command) is not None:
                     try:
                         arg = input("> ")
                         print("Converting ({})...".format(arg))
@@ -221,7 +285,22 @@ class Main:
                               """.format(Colors.GREEN, arg, command, Colors.YELLOW, Types[command]["run"](arg)))
                         input("")
                     except:
-                        print("{}Error when converting! ({})".format(Colors.RED, command))
+                        print("{}Error when convertion! ({})".format(Colors.RED, command))
+                        input("")
+                elif Ms_Converters.get(command) is not None:
+                    try:
+                        arg = []
+                        for i in Ms_Converters.get(command)["fields"]:
+                            f = float(eval(input(i+": ")))
+                            arg.append(f)
+                        print("Converting ({})...".format(arg))
+                        print("""
+        {}{} --> {} 
+        {}   {}
+                              """.format(Colors.GREEN, arg, command, Colors.YELLOW, Ms_Converters[command]["run"](arg)))
+                        input("")
+                    except:
+                        print("{}Error when convertion! ({})".format(Colors.RED, command))
                         input("")
                 else:
                     print("{}Command not found! ({})".format(Colors.RED, command))
