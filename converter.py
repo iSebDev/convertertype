@@ -70,6 +70,9 @@ Ms_Converters = {
     }
 }
 
+Plugins = []
+Custom = {}
+
 # api version = 1
 Types = {
     'apiversion': 1,
@@ -218,10 +221,24 @@ Types = {
     }
 }
 
-# 1/0 - Raise DivideByZero
+class Plugin:
+    def __init__(self, file) -> None:
+        self.file = file
 
 class Main:
     def __init__(self) -> None:
+        
+        # RUN PLUGINS
+        
+        for i in os.walk("plugins"):
+            plugin = Plugin(i[2][0])
+            self.loadPlugin(plugin=plugin)
+            
+        for i in Plugins:
+            Custom[i["plugin"]["name"]] = {
+                "description": i["plugin"]["description"],
+                "run": [k for k in i["data"]]
+            }
         
         while True:
             self.clear()
@@ -249,7 +266,10 @@ class Main:
                 keys = Ms_Converters.keys()
                 for key in keys:
                     print("{}{} {}- {}{}".format(Colors.YELLOW, key, Colors.RED, Colors.GREEN, Ms_Converters.get(key).get("description")))
-                    
+                print(Colors.WHITE+"=========  CUSTOMS  =========")
+                keys = Custom.keys()
+                for key in keys:
+                    print("{}{} {}- {}{}".format(Colors.YELLOW, key, Colors.RED, Colors.GREEN, Custom.get(key).get("description")))
                 input("")
             elif command == "exit":
                 exit(0)
@@ -271,10 +291,46 @@ class Main:
                     
                     if Types.get(arg) is not None:
                         print("{}{}:{} {}".format(Colors.GREEN, arg, Colors.YELLOW, Types.get(arg).get("description")))
+                    elif Ms_Converters.get(arg) is not None:
+                        print("{}{}:{} {}".format(Colors.GREEN, arg, Colors.YELLOW, Ms_Converters.get(arg).get("description")))
+                    elif Custom.get(arg) is not None:
+                        print("{}{}:{} {}".format(Colors.GREEN, arg, Colors.YELLOW, Custom.get(arg).get("description")))
+                        print(Colors.WHITE+"=============== FUNCTIONS ===============")
+                        for i in Custom.get(arg)["run"]:
+                            print(f"{Colors.RED}{i.get('name')}: {Colors.YELLOW}{i.get('info')}")
+                            
                     else:
                         print("{}Error: '{}' not exists".format(Colors.RED, arg))
                     input("")
-                    
+                # ===============================
+                # Only Support 1 arg.    
+                # CUSTOM COMMANDS BY PLUGINS RUN:
+                # ===============================
+                elif len(command.split(" ")) == 2 and Custom.get(command.split(" ")[0]) is not None: 
+                    error = 0
+                    for i in Custom.get(command.split(" ")[0]).get("run"):
+                        if i["name"] == command.split(" ")[1]:
+                            try:
+                                args = []
+                                for k in i["fields"]:
+                                    field = input(f"{k}>") 
+                                    args.append(float(eval(field))) 
+                                print("Converting ({})...".format(args))
+                                print("""
+        {}{} --> {} 
+        {}   {}
+                              """.format(Colors.GREEN, args[0], command.split(" ")[1], Colors.YELLOW, float(eval(str(i["return"]).replace("?", str(args[0])))))) 
+                            except Exception as e:
+                                print("{}Error when convertion! ({})".format(Colors.RED, command))
+                                print(e)
+                            error = 0
+                        else:
+                            error = 1
+                            continue
+                    if error == 1:
+                        print("{}Custom command not found! ({})".format(Colors.RED, command.split(" ")[1])) 
+                    input("")
+
                 elif Types.get(command) is not None:
                     try:
                         arg = input("> ")
@@ -311,6 +367,22 @@ class Main:
             os.system("cls")
         else:
             os.system("clear") 
+    
+    def loadPlugin(self, plugin: Plugin=None):
+        try:
+            print(Colors.GREEN+"Loading Plugin: "+plugin.file)
+            file = open(f"plugins/{plugin.file}", "r")
+            
+            load = json.load(file)
+            
+            Plugins.append(load) 
+            
+            print(Colors.GREEN+"Loaded successe: "+plugin.file)
+        except Exception as e: 
+            print(f"{Colors.RED}Error when loading plugin: {plugin.file}")
+            print(e)
+            
+        input("")
     
 class ConverterAPI:
     def __init__(self, version: int = 1):
