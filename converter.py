@@ -377,7 +377,7 @@ class Main:
             
             Plugins.append(load) 
             
-            print(Colors.GREEN+"Loaded successe: "+plugin.file)
+            print(Colors.GREEN+"Loaded success: "+plugin.file)
         except Exception as e: 
             print(f"{Colors.RED}Error when loading plugin: {plugin.file}")
             print(e)
