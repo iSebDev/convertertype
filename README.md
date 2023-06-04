@@ -2,6 +2,8 @@
 
 The program is a set of functions that allow conversion between different data types in Python, such as converting a string to an integer, converting a binary number to a hexadecimal number, converting a float to an integer, and many other conversion operations. Each function has a description that indicates what type of conversion it performs and how it is used. This program can be useful for anyone who needs to convert data into their Python code. ;-)
 
+## Run in CMD to load plugins: ```python converter.py```
+
 ## Conversion Functions
 
 | Function | Description |
