@@ -55,7 +55,7 @@ The program is a set of functions that allow conversion between different data t
 
 ## PLUGINS ⚙️ 🎉 NEW v1.5 RELEASE
 
-> You can make plugins in .json now
+> You can make plugins in .json now \n
 > You can use external libs
 > You can use remplazable values
 > You can make extra functions for the program
