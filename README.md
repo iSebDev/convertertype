@@ -52,3 +52,27 @@ The program is a set of functions that allow conversion between different data t
 | mltol      | Milliliters to Liters (x / 1000) | 1 |
 | gtomg      | Grams to Milligrams (x * 1000) | 1 |
 | mgtog      | Milligrams to Grams (x / 1000) | 1 |
+
+## PLUGINS ⚙️ 🎉 NEW v1.5 RELEASE
+
+> You can make plugins in .json now
+> You can use external libs
+> You can use remplazable values
+> You can make extra functions for the program
+> Command help : help <plugin> -> Plugin description and function names with description
+> Command runfunction : <plugin_name> <function_name>
+  
+  # Plugin example:
+  ```json
+  {
+    "plugin": {
+        "name": "example",
+        "description": "Sqrt"
+    },
+    "data": [
+        {"name": "sqrt", "fields": ["x"], "info": "Return Squareroot of a Float", "return": "math.sqrt(?x)"},
+        {"name": "sqrt2", "fields": ["x"], "info": "Return Squareroot of a Float", "return": "?x**(1/2)"},
+        {"name": "sqrt3", "fields": ["x"], "depend": ["numpy"], "return": "numpy.sqrt(?x)"}
+    ]
+  }
+  ```
