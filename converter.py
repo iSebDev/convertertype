@@ -5,6 +5,7 @@ import hashlib
 import math
 import requests
 import json
+import importlib
 
 libs = [math.__name__, 
         base64.__name__, 
@@ -12,7 +13,8 @@ libs = [math.__name__,
         requests.__name__, 
         re.__name__,
         json.__name__,
-        hashlib.__name__]
+        hashlib.__name__,
+        importlib.__name__]
 
 class Colors: 
     RED = "\033[31m"
@@ -239,12 +241,11 @@ class Main:
                 "description": i["plugin"]["description"],
                 "run": [k for k in i["data"]]
             }
-        
         while True:
             self.clear()
             print("""
                   {}
-             ConverterType v1.4 by SebDev
+             ConverterType v1.5 by SebDev
         --------------------------------------
                 Simple change the type
                     of other type
@@ -302,8 +303,7 @@ class Main:
                     else:
                         print("{}Error: '{}' not exists".format(Colors.RED, arg))
                     input("")
-                # ===============================
-                # Only Support 1 arg.    
+                # ===============================   
                 # CUSTOM COMMANDS BY PLUGINS RUN:
                 # ===============================
                 elif len(command.split(" ")) == 2 and Custom.get(command.split(" ")[0]) is not None: 
@@ -312,14 +312,26 @@ class Main:
                         if i["name"] == command.split(" ")[1]:
                             try:
                                 args = []
+                                evaluation = str(i["return"])
+                                depends = i.get("depend")
+                                if depends is not None:
+                                    for lib in depends:
+                                        try:
+                                            module = importlib.import_module(lib)
+                                            globals()[lib] = module
+                                        except ImportError:
+                                            print(f"Error when try to import lib: {lib}")
                                 for k in i["fields"]:
                                     field = input(f"{k}>") 
-                                    args.append(float(eval(field))) 
+                                    args.append(float(eval(field, globals()))) 
+                                    evaluation = evaluation.replace(f"?{k}", field)
                                 print("Converting ({})...".format(args))
                                 print("""
         {}{} --> {} 
         {}   {}
-                              """.format(Colors.GREEN, args[0], command.split(" ")[1], Colors.YELLOW, float(eval(str(i["return"]).replace("?", str(args[0])))))) 
+                              """.format(Colors.GREEN, args[0], command.split(" ")[1], Colors.YELLOW, float(eval(evaluation, globals())))) 
+                                error = 0
+                                break
                             except Exception as e:
                                 print("{}Error when convertion! ({})".format(Colors.RED, command))
                                 print(e)
@@ -385,12 +397,15 @@ class Main:
         input("")
     
 class ConverterAPI:
+    
     def __init__(self, version: int = 1):
         self.version = version
     
     def convert(self, output_type: str, input_value: any=None):
         if Types.get("apiversion") == self.version:
             return Types.get(output_type).get('run')(input_value) if Types.get(output_type) != None and output_type != "apiversion" else None
+        elif Types.get("apiversion") == self.version:
+            return Ms_Converters.get(output_type).get('run')(input_value) if Ms_Converters.get(output_type) != None and output_type != "apiversion" else None
         else:
             raise Exception("Invalid API Version")
     
