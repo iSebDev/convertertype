@@ -55,12 +55,12 @@ The program is a set of functions that allow conversion between different data t
 
 ## PLUGINS ⚙️ 🎉 NEW v1.5 RELEASE
 
-> You can make plugins in .json now \n
-> You can use external libs
-> You can use remplazable values
-> You can make extra functions for the program
-> Command help : help <plugin> -> Plugin description and function names with description
-> Command runfunction : <plugin_name> <function_name>
+- You can make plugins in .json now 
+- You can use external libs
+- You can use remplazable values
+- You can make extra functions for the program
+- Command help : help <plugin> -> Plugin description and function names with description
+- Command runfunction : <plugin_name> <function_name>
   
   # Plugin example:
   ```json
