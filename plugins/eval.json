@@ -1,0 +1,10 @@
+{
+	"plugin": {
+		"name": "operations",
+		"description": "A usesful plugin!"
+	},
+	"data": [
+			{"name": "run", "fields": ["op"], "info": "a usesful function!", "return": "?op"}, 
+			{"name": "sum", "fields": ["a", "b"], "info": "a usesful sum!", "return": "?a+?b"}
+	]
+}
