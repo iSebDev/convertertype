@@ -233,14 +233,17 @@ class Main:
         # RUN PLUGINS
         
         for i in os.walk("plugins"):
-            plugin = Plugin(i[2][0])
-            self.loadPlugin(plugin=plugin)
+            for r in range(0, len(i[2])):
+                self.loadPlugin(plugin=Plugin(i[2][r]))
             
         for i in Plugins:
             Custom[i["plugin"]["name"]] = {
                 "description": i["plugin"]["description"],
                 "run": [k for k in i["data"]]
             }
+        
+        input("")
+        
         while True:
             self.clear()
             print("""
@@ -393,8 +396,6 @@ class Main:
         except Exception as e: 
             print(f"{Colors.RED}Error when loading plugin: {plugin.file}")
             print(e)
-            
-        input("")
     
 class ConverterAPI:
     
