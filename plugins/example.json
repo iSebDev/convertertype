@@ -4,7 +4,8 @@
         "description": "Sqrt"
     },
     "data": [
-        {"name": "sqrt", "fields": ["x"], "depend": ["math"], "info": "Return Squareroot of a Float", "return": "math.sqrt(?)"},
-        {"name": "sqrt2", "fields": ["x"], "info": "Return Squareroot of a Float", "return": "?**(1/2)"}
+        {"name": "sqrt", "fields": ["x"], "info": "Return Squareroot of a Float", "return": "math.sqrt(?x)"},
+        {"name": "sqrt2", "fields": ["x"], "info": "Return Squareroot of a Float", "return": "?x**(1/2)"},
+        {"name": "sqrt3", "fields": ["x"], "depend": ["numpy"], "return": "numpy.sqrt(?x)"}
     ]
 }
